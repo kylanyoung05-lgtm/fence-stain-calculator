@@ -1,1 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fence Stain Calculator | Fence Paint & Cost Calculator</title>
+<meta name="description" content="Free fence stain calculator and fence paint calculator. Estimate gallons, coverage, waste, material cost, and project cost for your fence.">
+<meta name="robots" content="index,follow">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#18241e;background:#f4f6f2;line-height:1.55}
+header{background:#173b2b;color:#fff;padding:18px 20px}
+.nav{max-width:1080px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:900;font-size:20px;letter-spacing:-.3px}
+.nav a{color:#dfece3;text-decoration:none;font-size:14px;margin-left:22px}
+.hero{background:#173b2b;color:#fff;padding:54px 20px 88px}
+.hero-inner{max-width:1080px;margin:auto}
+.eyebrow{text-transform:uppercase;letter-spacing:1.8px;font-size:12px;font-weight:850;opacity:.72}
+.hero h1{font-size:clamp(38px,6vw,64px);line-height:1.02;max-width:850px;margin:12px 0 16px;letter-spacing:-1.5px}
+.hero p{max-width:730px;font-size:18px;opacity:.9;margin:0}
+.wrap{max-width:1080px;margin:-44px auto 55px;padding:0 20px}
+.card,.article,.side{background:#fff;border-radius:18px;box-shadow:0 12px 35px rgba(20,40,30,.11)}
+.card{padding:30px}
+.tabs{display:flex;gap:8px;margin-bottom:25px}
+.tab{flex:1;padding:13px;border:1px solid #d5ddd7;border-radius:10px;background:#f7f9f7;color:#18241e;font-weight:800;font-size:15px;cursor:pointer}
+.tab.active{background:#e7f1ea;border-color:#789783}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+label{display:block;font-weight:750;font-size:14px;margin-bottom:7px}
+input,select{width:100%;padding:13px 14px;border:1px solid #d6ddd7;border-radius:10px;font-size:16px;background:#fff;color:#18241e}
+input:focus,select:focus{outline:3px solid #dcebe2;border-color:#4d8062}
+.help{font-size:12px;color:#69766f;margin-top:5px}
+.calculate{grid-column:1/-1;padding:16px;border:0;border-radius:11px;background:#e58b2c;color:#fff;font-size:17px;font-weight:850;cursor:pointer}
+.calculate:hover{filter:brightness(.97)}
+.results{margin-top:24px;background:#edf5ef;border-radius:14px;padding:23px}
+.main-result{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.small{font-size:13px;color:#53645a}
+.big{font-size:44px;font-weight:900;line-height:1}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.metric{background:#fff;padding:13px;border-radius:10px}
+.metric b{display:block;font-size:19px}
+.breakdown{margin-top:16px;padding-top:15px;border-top:1px solid #d4e2d7;font-size:14px}
+.cta{margin-top:16px;background:#fff8ed;border:1px solid #f1d6ad;border-radius:11px;padding:15px}
+.cta b{display:block;margin-bottom:3px}
+.content{max-width:1080px;margin:0 auto 75px;padding:0 20px}
+.cols{display:grid;grid-template-columns:2fr 1fr;gap:24px}
+.article,.side{padding:28px;box-shadow:none}
+.article h2{margin-top:0}
+.article h3{margin-top:26px}
+.tool{display:block;padding:13px;border:1px solid #dbe2dd;border-radius:10px;text-decoration:none;color:#183d2b;font-weight:750;margin:9px 0;background:#fafcfb}
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px}
+th,td{text-align:left;padding:10px;border-bottom:1px solid #dde3df}
+.faq details{border-top:1px solid #dde3df;padding:14px 0}
+.faq summary{font-weight:750;cursor:pointer}
+.note{font-size:13px;color:#5c6961}
+footer{background:#17231d;color:#dce6df;text-align:center;padding:32px 20px;font-size:13px}
+@media(max-width:760px){
+.grid,.cols{grid-template-columns:1fr}
+.calculate{grid-column:auto}
+.metrics{grid-template-columns:1fr 1fr}
+.hero{padding-top:42px}
+.card{padding:20px}
+.nav a{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="nav">
+<div class="logo">Fence Calculator</div>
+<div><a href="#calculator">Calculator</a><a href="#guides">Guides</a><a href="#faq">FAQ</a></div>
+</div>
+</header>
 
+<section class="hero">
+<div class="hero-inner">
+<div class="eyebrow">Free fence project tools</div>
+<h1>How much fence stain or paint do you need?</h1>
+<p>Calculate your fence area, gallons to buy, and estimated material cost in seconds. Built for homeowners and DIY fence projects.</p>
+</div>
+</section>
+
+<main class="wrap">
+<div class="card" id="calculator">
+<div class="tabs">
+<button class="tab active" id="stainTab" type="button" onclick="setMode('stain')">🪵 Fence Stain</button>
+<button class="tab" id="paintTab" type="button" onclick="setMode('paint')">🎨 Fence Paint</button>
+</div>
+
+<div class="grid">
+<div>
+<label for="length">Fence length (ft)</label>
+<input id="length" type="number" min="1" step="1" value="100">
+</div>
+<div>
+<label for="height">Fence height (ft)</label>
+<input id="height" type="number" min=".5" step=".5" value="6">
+</div>
+<div>
+<label for="sides">Sides to cover</label>
+<select id="sides"><option value="1">1 side</option><option value="2" selected>Both sides</option></select>
+</div>
+<div>
+<label for="coats">Number of coats</label>
+<select id="coats"><option value="1">1 coat</option><option value="2" selected>2 coats</option><option value="3">3 coats</option></select>
+</div>
+
+<div id="stainFields">
+<label for="wood">Wood / surface condition</label>
+<select id="wood">
+<option value="200">Smooth or previously coated — about 200 sq ft/gal</option>
+<option value="175" selected>Typical fence wood — about 175 sq ft/gal</option>
+<option value="125">Rough, bare, or weathered — about 125 sq ft/gal</option>
+</select>
+<div class="help">For the most accurate result, use the coverage printed on your product.</div>
+</div>
+
+<div id="paintFields" style="display:none">
+<label for="paintCoverage">Paint coverage (sq ft/gal)</label>
+<input id="paintCoverage" type="number" min="25" value="350">
+<div class="help">Use the coverage rate printed on your paint can.</div>
+</div>
+
+<div>
+<label for="waste">Extra allowance</label>
+<select id="waste"><option value="5">5%</option><option value="10" selected>10%</option><option value="15">15%</option><option value="20">20%</option></select>
+</div>
+
+<div>
+<label for="price">Price per gallon ($)</label>
+<input id="price" type="number" min="0" step=".01" value="40">
+</div>
+
+<div>
+<label for="container">Container size</label>
+<select id="container"><option value="1">1-gallon cans</option><option value="5" selected>5-gallon buckets</option></select>
+</div>
+
+<div>
+<label for="extras">Posts & rails allowance</label>
+<select id="extras"><option value="0">None</option><option value="10">Add 10%</option><option value="15">Add 15%</option></select>
+</div>
+
+<button class="calculate" type="button" onclick="calculate()">Calculate My Project</button>
+</div>
+
+<div class="results" aria-live="polite">
+<div class="main-result">
+<div><div class="small">Recommended amount to buy</div><div class="big" id="gallons">20 gal</div></div>
+<div><div class="small">Estimated material cost</div><div class="big" id="cost">$800</div></div>
+</div>
+
+<div class="metrics">
+<div class="metric"><span class="small">Fence face area</span><b id="face">1,200 sq ft</b></div>
+<div class="metric"><span class="small">Area with coats</span><b id="coatArea">2,400 sq ft</b></div>
+<div class="metric"><span class="small">Coverage used</span><b id="coverage">175 sq ft/gal</b></div>
+<div class="metric"><span class="small">Containers</span><b id="containers">4 buckets</b></div>
+</div>
+
+<div class="breakdown" id="breakdown"></div>
+<div class="cta"><b>Next step</b><span id="shopping">Use this estimate to plan stain or paint plus brushes, sprayer, cleaner, and other supplies.</span></div>
+<p class="note" id="detail">Planning estimate only. Product coverage and actual usage vary by surface, product, application method, and conditions.</p>
+</div>
+</div>
+</main>
+
+<section class="content" id="guides">
+<div class="cols">
+<article class="article">
+<h2>How to calculate fence stain or paint</h2>
+<p>Start with the fence face area: <strong>length × height × number of sides</strong>. Multiply that area by the number of coats. Add an allowance for posts, rails, absorption, overspray, and other project waste, then divide by the product's coverage rate.</p>
+<p><strong>Gallons needed = coated area × allowances ÷ coverage per gallon</strong></p>
+
+<h2>Example: 100-foot fence</h2>
+<p>A 100-foot fence that is 6 feet high has 600 square feet on one face and 1,200 square feet on both faces. At two coats, the base coating area is 2,400 square feet before any additional allowance.</p>
+
+<h2>Why coverage matters</h2>
+<p>Coverage is one of the biggest variables in a fence coating estimate. Rough, bare, or weathered wood can use more material than a smooth surface. Spraying can also create more loss than careful brushing or rolling. For the best estimate, use the coverage rate supplied for the exact product you plan to buy.</p>
+
+<h2>Quick reference</h2>
+<table>
+<thead><tr><th>Fence size</th><th>One side</th><th>Both sides</th></tr></thead>
+<tbody>
+<tr><td>100 ft × 6 ft</td><td>600 sq ft</td><td>1,200 sq ft</td></tr>
+<tr><td>200 ft × 6 ft</td><td>1,200 sq ft</td><td>2,400 sq ft</td></tr>
+<tr><td>300 ft × 6 ft</td><td>1,800 sq ft</td><td>3,600 sq ft</td></tr>
+<tr><td>100 ft × 8 ft</td><td>800 sq ft</td><td>1,600 sq ft</td></tr>
+</tbody>
+</table>
+
+<h2>More fence calculators</h2>
+<a class="tool" href="#calculator">🎨 Fence Paint Calculator</a>
+<a class="tool" href="#calculator">💰 Fence Staining Cost Calculator</a>
+<a class="tool" href="#calculator">📏 Fence Linear Feet Calculator</a>
+<a class="tool" href="#calculator">🪵 Fence Material Calculator — coming soon</a>
+
+<div class="faq" id="faq">
+<h2>Frequently asked questions</h2>
+<details><summary>How much stain do I need for a 100-foot fence?</summary><p>It depends on fence height, how many sides you are coating, the number of coats, and the product's coverage. A 100-foot by 6-foot fence is 600 square feet per side.</p></details>
+<details><summary>Should I stain both sides of my fence?</summary><p>If both faces will be coated, select “Both sides.” If you are only finishing one face, select “1 side.”</p></details>
+<details><summary>How much extra stain should I buy?</summary><p>A 10% planning allowance is a reasonable starting point, but rough wood, overspray, gates, posts, rails, and touch-ups can change actual usage.</p></details>
+<details><summary>Is this calculator exact?</summary><p>No. It is a planning estimate. Always check the manufacturer's coverage and application instructions for the specific product you use.</p></details>
+</div>
+</article>
+
+<aside class="side">
+<h3>What this calculator gives you</h3>
+<ul>
+<li>Fence face area</li>
+<li>Total area for your coats</li>
+<li>Recommended gallons to buy</li>
+<li>Container count</li>
+<li>Estimated material cost</li>
+<li>Allowance for posts and rails</li>
+</ul>
+
+<h3>Build your project in stages</h3>
+<p>Measure each fence run separately if your fence changes height. Add the runs together for a better total estimate.</p>
+
+<h3>Coming next</h3>
+<p>We are expanding this site into a complete fence-planning toolkit with project-cost estimates, material takeoffs, post spacing, gates, and DIY-versus-contractor comparisons.</p>
+</aside>
+</div>
+</section>
+
+<footer>Fence Calculator • Free planning tools for homeowners and DIY projects. Estimates are for planning only.</footer>
+
+<script>
+let mode='stain';
+
+function setMode(nextMode){
+ mode=nextMode;
+ document.getElementById('stainTab').classList.toggle('active',mode==='stain');
+ document.getElementById('paintTab').classList.toggle('active',mode==='paint');
+ document.getElementById('stainFields').style.display=mode==='stain'?'block':'none';
+ document.getElementById('paintFields').style.display=mode==='paint'?'block':'none';
+ calculate();
+}
+
+function formatNumber(n, decimals=1){
+ return Number(n).toLocaleString(undefined,{maximumFractionDigits:decimals});
+}
+
+function calculate(){
+ const L=Math.max(0,+document.getElementById('length').value||0);
+ const H=Math.max(0,+document.getElementById('height').value||0);
+ const S=+document.getElementById('sides').value;
+ const C=+document.getElementById('coats').value;
+ const W=(+document.getElementById('waste').value||0)/100;
+ const E=(+document.getElementById('extras').value||0)/100;
+ const P=Math.max(0,+document.getElementById('price').value||0);
+ const K=+document.getElementById('container').value;
+ const coverage=mode==='stain'
+   ? Math.max(1,+document.getElementById('wood').value||175)
+   : Math.max(1,+document.getElementById('paintCoverage').value||350);
+
+ const faceArea=L*H*S;
+ const coatedArea=faceArea*C*(1+E);
+ const exact=coatedArea*(1+W)/coverage;
+ const containerCount=Math.max(0,Math.ceil(exact/K));
+ const buy=containerCount*K;
+ const cost=buy*P;
+
+ document.getElementById('gallons').textContent=formatNumber(buy,1)+' gal';
+ document.getElementById('cost').textContent=P?'$'+cost.toLocaleString(undefined,{maximumFractionDigits:0}):'—';
+ document.getElementById('face').textContent=formatNumber(faceArea,1)+' sq ft';
+ document.getElementById('coatArea').textContent=formatNumber(coatedArea,1)+' sq ft';
+ document.getElementById('coverage').textContent=formatNumber(coverage,0)+' sq ft/gal';
+ document.getElementById('containers').textContent=containerCount+' '+(K===5?'bucket'+(containerCount===1?'':'s'):'can'+(containerCount===1?'':'s'));
+
+ document.getElementById('breakdown').textContent=
+ 'Base face area: '+formatNumber(faceArea,1)+' sq ft • '+C+' coat'+(C===1?'':'s')+
+ ' • '+Math.round(W*100)+'% extra allowance'+(E?(' • '+Math.round(E*100)+'% posts/rails allowance'):'')+
+ ' • Unrounded estimate: '+formatNumber(exact,1)+' gallons.';
+
+ document.getElementById('shopping').textContent=
+ 'Plan to buy about '+formatNumber(buy,1)+' gallons. The next version can turn this result into a product shopping list and full project estimate.';
+
+ document.getElementById('detail').textContent=
+ 'Planning estimate only. Coverage varies by product, wood condition, application method, and project details. Check your product label before purchasing.';
+}
+
+document.querySelectorAll('input, select').forEach(el=>el.addEventListener('input',calculate));
+calculate();
+</script>
+</body>
+</html>
